@@ -20,23 +20,31 @@ public class Commands {
     public void handle(String op, Scanner sc) throws IOException, InterruptedException {
         switch (op) {
             case "GET" -> { // либо ALL, либо id
-                if (!sc.hasNext()) { System.out.println("incorrect input"); return; }
+                if (!sc.hasNext()) { System.out.println("incorrect input");
+                    return;
+                }
                 String nxt = sc.next();
                 if (nxt.equalsIgnoreCase("ALL")) {
                     exec(HttpRequest.newBuilder(URI.create(baseUrl))
                             .GET().timeout(Duration.ofSeconds(20)).build());
                 } else {
                     int id = Integer.parseInt(nxt);
-                    if (id <= 0) { System.out.println("incorrect input"); return; }
+                    if (id <= 0) { System.out.println("incorrect input");
+                        return;
+                    }
                     exec(HttpRequest.newBuilder(URI.create(baseUrl + id))
                             .GET().timeout(Duration.ofSeconds(20)).build());
                 }
             }
 
             case "DELETE" -> {
-                if (!sc.hasNextInt()) { System.out.println("incorrect input"); return; }
+                if (!sc.hasNextInt()) { System.out.println("incorrect input");
+                    return;
+                }
                 int id = sc.nextInt();
-                if (id <= 0) { System.out.println("incorrect input"); return; }
+                if (id <= 0) { System.out.println("incorrect input");
+                    return;
+                }
                 sc.nextLine();
 
                 HttpResponse<String> resp = client.send(
@@ -62,7 +70,7 @@ public class Commands {
                     return;
                 }
                 int answer = sc.nextInt();
-                sc.nextLine(); // съесть \n
+                sc.nextLine();
 
                 if (answer == 1) {
                     String json = """
@@ -122,7 +130,7 @@ public class Commands {
                     return;
                 }
                 int answer = sc.nextInt();
-                sc.nextLine(); // съесть \n
+                sc.nextLine();
 
                 int id;
                 int userId;
@@ -138,7 +146,9 @@ public class Commands {
                     }
                     id = sc.nextInt();
                     sc.nextLine();
-                    if (id <= 0) { System.out.println("incorrect input"); return; }
+                    if (id <= 0) { System.out.println("incorrect input");
+                        return;
+                    }
 
                     userId = 1 + (int)(Math.random() * 10);
                     title = "Updated TODO #" + (100 + (int)(Math.random() * 900));
@@ -161,7 +171,9 @@ public class Commands {
                     }
                     id = sc.nextInt();
                     sc.nextLine();
-                    if (id <= 0) { System.out.println("incorrect input"); return; }
+                    if (id <= 0) { System.out.println("incorrect input");
+                        return;
+                    }
 
                     System.out.println("input user_id");
                     if (!sc.hasNextInt()) { System.out.println("incorrect input");
@@ -207,7 +219,6 @@ public class Commands {
         }
     }
 
-    // === точь-в-точь как у тебя ===
     private void exec(HttpRequest req) throws IOException, InterruptedException {
         HttpResponse<String> resp = client.send(req, HttpResponse.BodyHandlers.ofString());
         System.out.println("HTTP " + resp.statusCode());
@@ -216,6 +227,7 @@ public class Commands {
     }
 
     private static String escapeJson(String s) {
-        return s.replace("\\", "\\\\").replace("\"", "\\\"");
+        return s.replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 }

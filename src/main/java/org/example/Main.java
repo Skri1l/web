@@ -22,10 +22,12 @@ public class Main {
         try (Scanner sc = new Scanner(System.in)) {
             while (true) {
                 System.out.print("Input smthg ");
-                if (!sc.hasNext()) break;
+                if (!sc.hasNext())
+                    break;
 
                 String op = sc.next().toUpperCase(Locale.ROOT);
-                if (op.equals("EXIT")) break;
+                if (op.equals("EXIT"))
+                    break;
 
                 try {
                     processor.handle(op, sc);
